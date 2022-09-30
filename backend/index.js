@@ -2,12 +2,37 @@ const express = require("express");
 const app = express();
 const port = 3000;
 const mongoose = require("mongoose");
+const history = require('connect-history-api-fallback');
 const fs = require("fs");
 var stream = require("stream");
 var Keygrip = require("keygrip");
 const session = require("cookie-session");
 let db;
 const cors = require("cors");
+const argv = require('minimist')(process.argv.slice(2));
+
+let backendonly = false;
+
+if (argv['backend-only'] || argv.b) backendonly = true;
+if (backendonly) {
+    console.log('Running spikehub on the backend')
+}
+
+if (!backendonly) {
+    let staticFileMiddleware = express.static(path.join(__dirname, '../dist'));
+  
+    app.use(history({
+        rewrites: [
+            {
+                from: '/api/',
+                to: function (context) {
+                    return context.parsedUrl.pathname;
+                }
+            }
+        ]
+    }));
+    app.use('/', staticFileMiddleware);
+  }
 
 app.use(
   cors({
