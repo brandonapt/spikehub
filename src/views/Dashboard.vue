@@ -28,6 +28,7 @@
               <td>{{ item.commitMessage }}</td>
               <td>{{ item.user }}</td>
               <td>{{ item.uploaded }}</td>
+              <v-btn color="red" @click="dow(item.id)" class="mt-1 mr-n15 ml-5">download</v-btn>
             </tr>
           </tbody>
         </template>
@@ -36,7 +37,7 @@
     <div v-if="upload">
       <v-dialog v-model="upload" width="500">
         <v-card>
-          <v-card-title class="text-h5 blue lighten-2">
+          <v-card-title class="text-h5 red lighten-2">
             new version
           </v-card-title>
 
@@ -76,15 +77,15 @@
 
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="primary" text @click="uplink"> finish </v-btn>
+            <v-btn color="red" text @click="uplink"> finish </v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
     </div>
     <div v-if="login">
-      <v-dialog v-model="login" width="500">
+      <v-dialog v-model="login" width="500" persistent>
         <v-card>
-          <v-card-title class="text-h5 blue lighten-2"> Login </v-card-title>
+          <v-card-title class="text-h5 red lighten-2"> Login </v-card-title>
 
           <v-card-text class="mt-5">
             Welcome to spikehub. Please login to continue to the files.
@@ -113,12 +114,13 @@
 
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="primary" text @click="passLogin"> Login </v-btn>
+            <v-btn color="red" text @click="passLogin"> Login </v-btn>
+            <v-btn color="red" text @click="$router.push('/')"> Cancel </v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
     </div>
-    <v-snackbar v-model="snackbar" color="blue">
+    <v-snackbar v-model="snackbar" color="red">
       {{ msg }}
       <template v-slot:action="{ attrs }">
         <v-btn text v-bind="attrs" @click="snackbar = false">Close</v-btn>
@@ -197,6 +199,20 @@ export default {
         );
       };
       reader.readAsDataURL(this.file.file);
+    },
+    dow(id) {
+      this.$http.get('/files/download/' + id).then(
+        (response) => {
+          var blob = new Blob([response.data], { type: 'application/octet-stream' });
+          var link = document.createElement('a');
+          link.href = window.URL.createObjectURL(blob);
+          link.download = "SPIKEHUB_" + id + ".lms";
+          link.click();
+        },
+        (response) => {
+          console.log(response);
+        }
+      );
     },
     createImage(file) {
       var image = new Image();

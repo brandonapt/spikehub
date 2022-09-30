@@ -1,12 +1,14 @@
 <template>
   <div>
-    <h1 class="maintitle">Spikehub</h1>
+    <h1 class="maintitle">spikehub</h1>
     <v-divider class="mx-15"></v-divider>
     <h3 class="text-center mt-2 sub">next-gen version control for spike prime</h3>
+    <v-row>
     <v-btn class='button' @click="login" outlined >
       <v-icon>mdi-login</v-icon>
        dashboard
     </v-btn>
+  </v-row>
     <v-container class="mt-5">
       <v-row>
         <v-col>
