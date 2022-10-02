@@ -54,7 +54,7 @@ app.use(
   })
 );
 
-const mongoUrl = "mongodb://localhost:27017/spikehub";
+const mongoUrl = "mongodb://cl8rnk0op0003copf1ayk0pqb:IJwsiSQOPmATYn346qzjF2HL@194.5.152.195:1026/";
 const connect = mongoose
   .connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true })
   .then((connection) => {
