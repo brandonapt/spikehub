@@ -5,8 +5,12 @@ import vuetify from './plugins/vuetify'
 import axios from 'axios'
 
 const axiosInstance = axios.create({
-  baseURL: 'http://'+process.env.VUE_APP_BASE+'/api',
-  withCredentials: true
+  baseURL: `${process.env.VUE_APP_BASE ? `${process.env.VUE_APP_BASE}` : ''}/api`,
+  withCredentials: true,
+  headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+  }
 });
 
 Vue.prototype.$http = axiosInstance;
