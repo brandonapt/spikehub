@@ -7,6 +7,7 @@ const fs = require("fs");
 var stream = require("stream");
 var Keygrip = require("keygrip");
 const session = require("cookie-session");
+const path = require('path')
 let db;
 const cors = require("cors");
 const argv = require('minimist')(process.argv.slice(2));
